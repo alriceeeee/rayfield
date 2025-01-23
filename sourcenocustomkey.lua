@@ -3845,5 +3845,7 @@ task.delay(4, function()
 		Main.Notice.Visible = false
 	end
 end)
-
+if useStudio then
+return RayfieldLibrary
+end
 return RayfieldLibrary
