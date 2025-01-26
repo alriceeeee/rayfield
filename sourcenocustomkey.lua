@@ -1394,53 +1394,53 @@ local function updateSettings()
 end
 
 local function createSettings(Window)
-	if settingsCreated then return end
-	settingsCreated = true
-	
-	local SettingsTab = Elements['Rayfield Settings']
-	
-	local GeneralSection = SettingsTab:CreateSection("General")
-	local SystemSection = SettingsTab:CreateSection("System")
-	
-	for categoryName, settingCategory in pairs(settingsTable) do
-		for settingName, setting in pairs(settingCategory) do
-			if setting.Type == 'bind' then
-				setting.Element = SettingsTab:CreateKeybind({
-					Name = setting.Name,
-					CurrentKeybind = setting.Value,
-					HoldToInteract = false,
-					 Flag = settingName,
-					Callback = function(Value)
-						setting.Value = Value
-						saveSettings()
-					end
-				})
-			elseif setting.Type == 'toggle' then
-				setting.Element = SettingsTab:CreateToggle({
-					Name = setting.Name,
-					CurrentValue = setting.Value,
-					Flag = settingName,
-					Callback = function(Value)
-						setting.Value = Value
-						saveSettings()
-					end
-				})
-			elseif setting.Type == 'dropdown' then
-				setting.Element = SettingsTab:CreateDropdown({
-					Name = setting.Name,
-					Options = setting.Options,
-					CurrentOption = {setting.Value},
-					MultipleOptions = false,
-					Flag = settingName,
-					Callback = function(Value)
-						setting.Value = Value[1]
-						Window.ModifyTheme(Value[1])
-						saveSettings()
-					end
-				})
-			end
-		end
-	end
+    if settingsCreated then return end
+    settingsCreated = true
+    
+    local SettingsTab = Window:CreateTab("Rayfield Settings", 4483362458)
+    
+    local GeneralSection = SettingsTab:CreateSection("General")
+    local SystemSection = SettingsTab:CreateSection("System")
+    
+    for categoryName, settingCategory in pairs(settingsTable) do
+        for settingName, setting in pairs(settingCategory) do
+            if setting.Type == 'bind' then
+                setting.Element = SettingsTab:CreateKeybind({
+                    Name = setting.Name,
+                    CurrentKeybind = setting.Value,
+                    HoldToInteract = false,
+                    Flag = settingName,
+                    Callback = function(Value)
+                        setting.Value = Value
+                        saveSettings()
+                    end
+                })
+            elseif setting.Type == 'toggle' then
+                setting.Element = SettingsTab:CreateToggle({
+                    Name = setting.Name,
+                    CurrentValue = setting.Value,
+                    Flag = settingName,
+                    Callback = function(Value)
+                        setting.Value = Value
+                        saveSettings()
+                    end
+                })
+            elseif setting.Type == 'dropdown' then
+                setting.Element = SettingsTab:CreateDropdown({
+                    Name = setting.Name,
+                    Options = setting.Options,
+                    CurrentOption = {setting.Value},
+                    MultipleOptions = false,
+                    Flag = settingName,
+                    Callback = function(Value)
+                        setting.Value = Value[1]
+                        Window.ModifyTheme(Value[1])
+                        saveSettings()
+                    end
+                })
+            end
+        end
+    end
 end
 
 
@@ -3893,3 +3893,4 @@ task.delay(4, function()
 end)
 
 return RayfieldLibrary
+print("hi")
