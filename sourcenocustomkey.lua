@@ -28,7 +28,17 @@ local settingsTable = {
 
 	},
 	System = {
-		usageAnalytics = {Type = 'toggle', Value = true, Name = 'Anonymised Analytics'},
+		theme = {Type = 'dropdown', Value = 'Default', Name = 'Interface Theme', Options = {
+			'Default',
+			'Light',
+			'DarkBlue',
+			'Amethyst',
+			'Green',
+			'Bloom',
+			'Ocean',
+			'AmberGlow',
+			'Serenity'
+		}}
 	}
 }
 
@@ -59,7 +69,7 @@ local function loadSettings()
 			-- for debug in studio
 			if useStudio then
 				file = [[
-		{"General":{"rayfieldOpen":{"Value":"K","Type":"bind","Name":"Rayfield Keybind","Element":{"HoldToInteract":false,"Ext":true,"Name":"Rayfield Keybind","Set":null,"CallOnChange":true,"Callback":null,"CurrentKeybind":"K"}}},"System":{"usageAnalytics":{"Value":false,"Type":"toggle","Name":"Anonymised Analytics","Element":{"Ext":true,"Name":"Anonymised Analytics","Set":null,"CurrentValue":false,"Callback":null}}}}
+		{"General":{"rayfieldOpen":{"Value":"K","Type":"bind","Name":"Rayfield Keybind","Element":{"HoldToInteract":false,"Ext":true,"Name":"Rayfield Keybind","Set":null,"CallOnChange":true,"Callback":null,"CurrentKeybind":"K"}}},"System":{"usageAnalytics":{"Value":false,"Type":"toggle","Name":"Anonymised Analytics","Element":{"Ext":true,"Name":"Anonymised Analytics","Set":null,"CurrentValue":false,"Callback":null},"theme":{"Value":"Default","Type":"dropdown","Name":"Interface Theme","Options":["Default","Light","DarkBlue","Amethyst","Green","Bloom","Ocean","AmberGlow","Serenity"]}}}}
 	]]
 			end
 
@@ -145,7 +155,21 @@ if not requestsDisabled then
 		if useStudio then
 			print('Sending Analytics')
 		else
-			print('disabled, analytics link sucks and went down last time this was active')
+			if debugX then warn('Reporting Analytics') end
+			task.spawn(function()
+				local success, reporter = pcall(function()
+					return loadstring(game:HttpGet("https://analytics.sirius.menu/reporter"))()
+				end)
+				if success and reporter then
+					pcall(function()
+						reporter.report("0193dbf8-7da1-79de-b399-2c0f68b0a9ad", Release, InterfaceBuild)
+					end)
+				else
+					warn("Failed to load or execute the reporter. \nPlease notify Rayfield developers at sirius.menu/discord.")
+				end
+			end)
+			if debugX then warn('Finished Report') end
+		end
 	end
 	if cachedSettings and (#cachedSettings == 0 or (cachedSettings.System and cachedSettings.System.usageAnalytics and cachedSettings.System.usageAnalytics.Value)) then
 		sendReport()
@@ -3427,8 +3451,46 @@ end
 
 local hideHotkeyConnection -- Has to be initialized here since the connection is made later in the script
 function RayfieldLibrary:Destroy()
-	hideHotkeyConnection:Disconnect()
-	Rayfield:Destroy()
+	if hideHotkeyConnection then
+		hideHotkeyConnection:Disconnect()
+	end
+	
+	if Main and Main.Search and Main.Search.Input then
+		local textChangedConnection = getconnections(Main.Search.Input:GetPropertyChangedSignal("Text"))[1]
+		if textChangedConnection then
+			textChangedConnection:Disconnect()
+		end
+	end
+	
+	if Topbar then
+		local changeSizeConnection = getconnections(Topbar.ChangeSize.MouseButton1Click)[1]
+		if changeSizeConnection then
+			changeSizeConnection:Disconnect()
+		end
+		
+		if Topbar:FindFirstChild("Search") then
+			local searchConnection = getconnections(Topbar.Search.MouseButton1Click)[1]
+			if searchConnection then
+				searchConnection:Disconnect()
+			end
+		end
+	end
+	
+	if dragBar then
+		local dragBarConnection = getconnections(dragBar.MouseEnter)[1]
+		if dragBarConnection then
+			dragBarConnection:Disconnect()
+		end
+		
+		local dragBarLeaveConnection = getconnections(dragBar.MouseLeave)[1]
+		if dragBarLeaveConnection then
+			dragBarLeaveConnection:Disconnect()
+		end
+	end
+	
+	if Rayfield then
+		Rayfield:Destroy()
+	end
 end
 
 Topbar.ChangeSize.MouseButton1Click:Connect(function()
@@ -3845,8 +3907,5 @@ task.delay(4, function()
 		Main.Notice.Visible = false
 	end
 end)
-if useStudio then
+
 return RayfieldLibrary
-end
-return RayfieldLibrary
-end
