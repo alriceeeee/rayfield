@@ -28,17 +28,7 @@ local settingsTable = {
 
 	},
 	System = {
-		theme = {Type = 'dropdown', Value = 'Default', Name = 'Interface Theme', Options = {
-			'Default',
-			'Light',
-			'DarkBlue',
-			'Amethyst',
-			'Green',
-			'Bloom',
-			'Ocean',
-			'AmberGlow',
-			'Serenity'
-		}}
+		usageAnalytics = {Type = 'toggle', Value = true, Name = 'Anonymised Analytics'},
 	}
 }
 
@@ -69,7 +59,7 @@ local function loadSettings()
 			-- for debug in studio
 			if useStudio then
 				file = [[
-		{"General":{"rayfieldOpen":{"Value":"K","Type":"bind","Name":"Rayfield Keybind","Element":{"HoldToInteract":false,"Ext":true,"Name":"Rayfield Keybind","Set":null,"CallOnChange":true,"Callback":null,"CurrentKeybind":"K"}}},"System":{"usageAnalytics":{"Value":false,"Type":"toggle","Name":"Anonymised Analytics","Element":{"Ext":true,"Name":"Anonymised Analytics","Set":null,"CurrentValue":false,"Callback":null},"theme":{"Value":"Default","Type":"dropdown","Name":"Interface Theme","Options":["Default","Light","DarkBlue","Amethyst","Green","Bloom","Ocean","AmberGlow","Serenity"]}}}}
+		{"General":{"rayfieldOpen":{"Value":"K","Type":"bind","Name":"Rayfield Keybind","Element":{"HoldToInteract":false,"Ext":true,"Name":"Rayfield Keybind","Set":null,"CallOnChange":true,"Callback":null,"CurrentKeybind":"K"}}},"System":{"usageAnalytics":{"Value":false,"Type":"toggle","Name":"Anonymised Analytics","Element":{"Ext":true,"Name":"Anonymised Analytics","Set":null,"CurrentValue":false,"Callback":null}}}}
 	]]
 			end
 
@@ -1393,54 +1383,70 @@ local function updateSettings()
 	end
 end
 
-local function createSettings(Window)
-    if settingsCreated then return end
-    settingsCreated = true
-    
-    local SettingsTab = Window:CreateTab("Rayfield Settings", 4483362458)
-    
-    local GeneralSection = SettingsTab:CreateSection("General")
-    local SystemSection = SettingsTab:CreateSection("System")
-    
-    for categoryName, settingCategory in pairs(settingsTable) do
-        for settingName, setting in pairs(settingCategory) do
-            if setting.Type == 'bind' then
-                setting.Element = SettingsTab:CreateKeybind({
-                    Name = setting.Name,
-                    CurrentKeybind = setting.Value,
-                    HoldToInteract = false,
-                    Flag = settingName,
-                    Callback = function(Value)
-                        setting.Value = Value
-                        saveSettings()
-                    end
-                })
-            elseif setting.Type == 'toggle' then
-                setting.Element = SettingsTab:CreateToggle({
-                    Name = setting.Name,
-                    CurrentValue = setting.Value,
-                    Flag = settingName,
-                    Callback = function(Value)
-                        setting.Value = Value
-                        saveSettings()
-                    end
-                })
-            elseif setting.Type == 'dropdown' then
-                setting.Element = SettingsTab:CreateDropdown({
-                    Name = setting.Name,
-                    Options = setting.Options,
-                    CurrentOption = {setting.Value},
-                    MultipleOptions = false,
-                    Flag = settingName,
-                    Callback = function(Value)
-                        setting.Value = Value[1]
-                        Window.ModifyTheme(Value[1])
-                        saveSettings()
-                    end
-                })
-            end
-        end
-    end
+local function createSettings(window)
+	if not (writefile and isfile and readfile and isfolder and makefolder) and not useStudio then
+		if Topbar['Settings'] then Topbar.Settings.Visible = false end
+		Topbar['Search'].Position = UDim2.new(1, -75, 0.5, 0)
+		warn('Can\'t create settings as no file-saving functionality is available.')
+		return
+	end
+
+	local newTab = window:CreateTab('Rayfield Settings', 0, true)
+
+	if TabList['Rayfield Settings'] then
+		TabList['Rayfield Settings'].LayoutOrder = 1000
+	end
+
+	if Elements['Rayfield Settings'] then
+		Elements['Rayfield Settings'].LayoutOrder = 1000
+	end
+
+	-- Create sections and elements
+	for categoryName, settingCategory in pairs(settingsTable) do
+		newTab:CreateSection(categoryName)
+
+		for _, setting in pairs(settingCategory) do
+			if setting.Type == 'input' then
+				setting.Element = newTab:CreateInput({
+					Name = setting.Name,
+					CurrentValue = setting.Value,
+					PlaceholderText = setting.Placeholder,
+					Ext = true,
+					RemoveTextAfterFocusLost = setting.ClearOnFocus,
+					Callback = function(Value)
+						setting.Value = Value
+						updateSettings()
+					end,
+				})
+			elseif setting.Type == 'toggle' then
+				setting.Element = newTab:CreateToggle({
+					Name = setting.Name,
+					CurrentValue = setting.Value,
+					Ext = true,
+					Callback = function(Value)
+						setting.Value = Value
+						updateSettings()
+					end,
+				})
+			elseif setting.Type == 'bind' then
+				setting.Element = newTab:CreateKeybind({
+					Name = setting.Name,
+					CurrentKeybind = setting.Value,
+					HoldToInteract = false,
+					Ext = true,
+					CallOnChange = true,
+					Callback = function(Value)
+						setting.Value = Value
+						updateSettings()
+					end,
+				})
+			end
+		end
+	end
+
+	settingsCreated = true
+	loadSettings()
+	updateSettings()
 end
 
 
@@ -3893,4 +3899,3 @@ task.delay(4, function()
 end)
 
 return RayfieldLibrary
-print("hi")
