@@ -26,11 +26,8 @@ local settingsTable = {
 		-- buildwarnings
 		-- rayfieldprompts
 
-	},
-	System = {
-		usageAnalytics = {Type = 'toggle', Value = true, Name = 'Anonymised Analytics'},
 	}
-}
+	}
 
 local HttpService = game:GetService("HttpService")
 local RunService = game:GetService("RunService")
@@ -139,37 +136,37 @@ end
 
 if not requestsDisabled then
 	if debugX then
-		warn('Querying Settings for Reporter Information')
+		print('disabled, you rayfield devs need to fuck off')
 	end
 	local function sendReport()
 		if useStudio then
-			print('Sending Analytics')
+			print('disabled, you rayfield devs need to fuck off')
 		else
-			if debugX then warn('Reporting Analytics') end
+			if debugX then print('disabled, you rayfield devs need to fuck off') end
 			task.spawn(function()
 				local success, reporter = pcall(function()
-					return loadstring(game:HttpGet("https://analytics.sirius.menu/reporter"))()
+					print('disabled, you rayfield devs need to fuck off')
 				end)
 				if success and reporter then
 					pcall(function()
 						reporter.report("0193dbf8-7da1-79de-b399-2c0f68b0a9ad", Release, InterfaceBuild)
 					end)
 				else
-					warn("Failed to load or execute the reporter. \nPlease notify Rayfield developers at sirius.menu/discord.")
+					print('disabled, you rayfield devs need to fuck off')
 				end
 			end)
-			if debugX then warn('Finished Report') end
+			if debugX then print('disabled, you rayfield devs need to fuck off') end
 		end
 	end
 	if cachedSettings and (#cachedSettings == 0 or (cachedSettings.System and cachedSettings.System.usageAnalytics and cachedSettings.System.usageAnalytics.Value)) then
-		sendReport()
+		print('disabled, you rayfield devs need to fuck off')
 	elseif not cachedSettings then
-		sendReport()
+		print('disabled, you rayfield devs need to fuck off')
 	end
 end
 
 if debugX then
-	warn('Moving on to continue initialisation')
+	print('disabled, you rayfield devs need to fuck off')
 end
 
 local RayfieldLibrary = {
@@ -551,6 +548,103 @@ local RayfieldLibrary = {
 			InputStroke = Color3.fromRGB(180, 190, 200),
 			PlaceholderColor = Color3.fromRGB(150, 150, 150)
 		},
+
+		Darkness = { 
+			-- IMPRISONING ME
+			-- ALL THAT I SEE
+			-- ABSOLUTE HORROR
+			-- I CANNOT LIVE
+			-- I CANNOT DIE
+			-- TRAPPED IN MYSELF
+			-- BODY MY HOLDING CELL
+			-- LANDMINE HAS TAKEN MY SIGHT
+			-- TAKEN MY SPEECH
+			-- TAKEN MY HEARING
+			-- TAKEN MY ARMS
+			-- TAKEN MY LEGS
+			-- TAKEN MY SOUL
+			-- LEFT ME WITH LIFE IN HELL 🗣️🔥
+			-- (yes this is a metallica reference go look at the lyrics of One)
+			TextColor = Color3.fromRGB(240, 240, 240),
+			Background = Color3.fromRGB(25, 25, 25), 
+			Topbar = Color3.fromRGB(30, 30, 30),
+			Shadow = Color3.fromRGB(20, 20, 20),
+			
+			NotificationBackground = Color3.fromRGB(20, 20, 20),
+			NotificationActionsBackground = Color3.fromRGB(230, 230, 230),
+			
+			TabBackground = Color3.fromRGB(30, 30, 30),
+			TabStroke = Color3.fromRGB(45, 45, 45),
+			TabBackgroundSelected = Color3.fromRGB(40, 40, 40),
+			TabTextColor = Color3.fromRGB(240, 240, 240),
+			SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
+			
+			ElementBackground = Color3.fromRGB(35, 35, 35),
+			ElementBackgroundHover = Color3.fromRGB(40, 40, 40),
+			SecondaryElementBackground = Color3.fromRGB(25, 25, 25),
+			ElementStroke = Color3.fromRGB(50, 50, 50),
+			SecondaryElementStroke = Color3.fromRGB(40, 40, 40),
+			
+			SliderBackground = Color3.fromRGB(30, 30, 30),
+			SliderProgress = Color3.fromRGB(56, 120, 220),
+			SliderStroke = Color3.fromRGB(45, 45, 45),
+			
+			ToggleBackground = Color3.fromRGB(30, 30, 30),
+			ToggleEnabled = Color3.fromRGB(56, 120, 220),
+			ToggleDisabled = Color3.fromRGB(60, 60, 60),
+			ToggleEnabledStroke = Color3.fromRGB(46, 110, 210), 
+			ToggleDisabledStroke = Color3.fromRGB(70, 70, 70),
+			ToggleEnabledOuterStroke = Color3.fromRGB(40, 80, 180),
+			ToggleDisabledOuterStroke = Color3.fromRGB(80, 80, 80),
+			
+			DropdownSelected = Color3.fromRGB(40, 40, 40),
+			DropdownUnselected = Color3.fromRGB(30, 30, 30),
+			
+			InputBackground = Color3.fromRGB(30, 30, 30),
+			InputStroke = Color3.fromRGB(45, 45, 45),
+			PlaceholderColor = Color3.fromRGB(180, 180, 180)
+		},
+		
+		BlueTheme = {
+			TextColor = Color3.fromRGB(240, 240, 240),
+			Background = Color3.fromRGB(30, 40, 60),
+			Topbar = Color3.fromRGB(35, 45, 65),
+			Shadow = Color3.fromRGB(25, 35, 50),
+			
+			NotificationBackground = Color3.fromRGB(25, 35, 50),
+			NotificationActionsBackground = Color3.fromRGB(230, 230, 230),
+			
+			TabBackground = Color3.fromRGB(35, 45, 65),
+			TabStroke = Color3.fromRGB(50, 60, 80),
+			TabBackgroundSelected = Color3.fromRGB(40, 50, 70),
+			TabTextColor = Color3.fromRGB(240, 240, 240),
+			SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
+			
+			ElementBackground = Color3.fromRGB(40, 50, 70),
+			ElementBackgroundHover = Color3.fromRGB(45, 55, 75),
+			SecondaryElementBackground = Color3.fromRGB(35, 45, 65),
+			ElementStroke = Color3.fromRGB(55, 65, 85),
+			SecondaryElementStroke = Color3.fromRGB(45, 55, 75),
+			
+			SliderBackground = Color3.fromRGB(35, 45, 65),
+			SliderProgress = Color3.fromRGB(56, 120, 220),
+			SliderStroke = Color3.fromRGB(50, 60, 80),
+			
+			ToggleBackground = Color3.fromRGB(35, 45, 65),
+			ToggleEnabled = Color3.fromRGB(56, 120, 220),
+			ToggleDisabled = Color3.fromRGB(60, 70, 90),
+			ToggleEnabledStroke = Color3.fromRGB(46, 110, 210),
+			ToggleDisabledStroke = Color3.fromRGB(70, 80, 100),
+			ToggleEnabledOuterStroke = Color3.fromRGB(40, 80, 180),
+			ToggleDisabledOuterStroke = Color3.fromRGB(80, 90, 110),
+			
+			DropdownSelected = Color3.fromRGB(45, 55, 75),
+			DropdownUnselected = Color3.fromRGB(35, 45, 65),
+			
+			InputBackground = Color3.fromRGB(35, 45, 65),
+			InputStroke = Color3.fromRGB(50, 60, 80),
+			PlaceholderColor = Color3.fromRGB(180, 180, 180)
+		}
 	}
 }
 
@@ -667,6 +761,23 @@ local SelectedTheme = RayfieldLibrary.Theme.Default
 local function ChangeTheme(Theme)
 	if typeof(Theme) == 'string' then
 		SelectedTheme = RayfieldLibrary.Theme[Theme]
+		if Theme == "Darkness" then
+			print([[DARKNESS, IMPRISONING ME
+ALL THAT I SEE
+ABSOLUTE HORROR
+I CANNOT LIVE
+I CANNOT DIE
+TRAPPED IN MYSELF
+BODY MY HOLDING CELL
+LANDMINE HAS TAKEN MY SIGHT
+TAKEN MY SPEECH
+TAKEN MY HEARING
+TAKEN MY ARMS
+TAKEN MY LEGS
+TAKEN MY SOUL
+LEFT ME WITH LIFE IN HELL 🗣️🔥]])
+warn("(yes this is a metallica reference go look at the lyrics of One)\nthis was also said in the console because you chose the Darkness theme)")
+		end
 	elseif typeof(Theme) == 'table' then
 		SelectedTheme = Theme
 	end
@@ -1383,15 +1494,15 @@ local function updateSettings()
 	end
 end
 
-local function createSettings(window)
+local function createSettings(Window)
 	if not (writefile and isfile and readfile and isfolder and makefolder) and not useStudio then
 		if Topbar['Settings'] then Topbar.Settings.Visible = false end
 		Topbar['Search'].Position = UDim2.new(1, -75, 0.5, 0)
-		warn('Can\'t create settings as no file-saving functionality is available.')
+		warn('Cannot create settings as no file-saving functionality is available.')
 		return
 	end
 
-	local newTab = window:CreateTab('Rayfield Settings', 0, true)
+	local newTab = Window:CreateTab('Rayfield Settings', 0, true)
 
 	if TabList['Rayfield Settings'] then
 		TabList['Rayfield Settings'].LayoutOrder = 1000
@@ -1401,7 +1512,38 @@ local function createSettings(window)
 		Elements['Rayfield Settings'].LayoutOrder = 1000
 	end
 
-	-- Create sections and elements
+	local InterfaceSection = newTab:CreateSection("Interface")
+	
+	local themeOptions = {}
+	for themeName in pairs(RayfieldLibrary.Theme) do
+		if RayfieldLibrary.Theme[themeName] then
+			table.insert(themeOptions, themeName)
+		end
+	end
+	
+	local currentTheme = "Default"
+	if Window and Window.Theme then
+		for themeName in pairs(RayfieldLibrary.Theme) do
+			if RayfieldLibrary.Theme[themeName] == Window.Theme then
+				currentTheme = themeName
+				break
+			end
+		end
+	end
+
+	local ThemeDropdown = newTab:CreateDropdown({
+		Name = "Theme",
+		Options = themeOptions,
+		CurrentOption = {currentTheme},
+		MultipleOptions = false,
+		Flag = "UITheme",
+		Callback = function(Option)
+			if Option and Option[1] and RayfieldLibrary.Theme[Option[1]] then
+				ChangeTheme(Option[1])
+			end
+		end,
+	})
+
 	for categoryName, settingCategory in pairs(settingsTable) do
 		newTab:CreateSection(categoryName)
 
@@ -1448,8 +1590,6 @@ local function createSettings(window)
 	loadSettings()
 	updateSettings()
 end
-
-
 
 function RayfieldLibrary:CreateWindow(Settings)
 	if Rayfield:FindFirstChild('Loading') then
@@ -3405,9 +3545,13 @@ function RayfieldLibrary:CreateWindow(Settings)
 	function Window.ModifyTheme(NewTheme)
 		local success = pcall(ChangeTheme, NewTheme)
 		if not success then
-			RayfieldLibrary:Notify({Title = 'Unable to Change Theme', Content = 'We are unable find a theme on file.', Image = 4400704299})
+			RayfieldLibrary:Notify({Title = 'Unable to Change Theme', Content = 'Theme not found.', Image = 4400704299})
 		else
 			RayfieldLibrary:Notify({Title = 'Theme Changed', Content = 'Successfully changed theme to '..(typeof(NewTheme) == 'string' and NewTheme or 'Custom Theme')..'.', Image = 4483362748})
+			
+			if Settings.ConfigurationSaving and Settings.ConfigurationSaving.Enabled then
+				SaveConfiguration()
+			end
 		end
 	end
 
@@ -3481,6 +3625,9 @@ function RayfieldLibrary:Destroy()
 	if Rayfield then
 		Rayfield:Destroy()
 	end
+
+	local blur = game:GetService("Lighting"):FindFirstChild("RayfieldBlur")
+	if blur then blur:Destroy() end
 end
 
 Topbar.ChangeSize.MouseButton1Click:Connect(function()
