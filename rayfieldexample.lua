@@ -1,21 +1,13 @@
-print("hi")
-local success, RayfieldLibrary = pcall(function()
-    return loadstring(game:HttpGet("https://raw.githubusercontent.com/alriceeeee/rayfield/refs/heads/main/sourcenocustomkey.lua"))()
-end)
-
-if not success then
-    print("Failed to load Rayfield:", RayfieldLibrary)
-    return
-end
-
+local version = "0.0.1"
+local gamename = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/alriceeeee/rayfield/refs/heads/main/sourcenocustomkey.lua",true))()
 local execname = {
     exec = identifyexecutor()
 }
 
 print("Creating window...")
 local Window = RayfieldLibrary:CreateWindow({
-   Name = "Rayfield Example Window",
-   Icon = 0,
+   Name = gamename .. " | Rayfield example window | v" .. version ,
    LoadingTitle = "Rayfield Interface Suite",
    LoadingSubtitle = "by Sirius",
    Theme = "Ocean",
