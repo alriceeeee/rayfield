@@ -2479,12 +2479,11 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 		-- Label
 		function Tab:CreateLabel(LabelText : string, Icon: number, Color : Color3, IgnoreTheme : boolean)
-			local LabelValue = {
-				Instance = Label -- Store the instance
-			}
+			local LabelValue = {}
+			local LabelSettings = {}
 
 			local Label = Elements.Template.Label:Clone()
-			LabelValue.Instance = Label -- Update the stored instance
+			LabelValue.Instance = Label
 			
 			Label.Title.Text = LabelText
 			Label.Visible = true
@@ -2573,9 +2572,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 					LabelValue.Instance.BackgroundColor3 = IgnoreTheme and (Color or LabelValue.Instance.BackgroundColor3) or SelectedTheme.SecondaryElementBackground
 					LabelValue.Instance.UIStroke.Color = IgnoreTheme and (Color or LabelValue.Instance.BackgroundColor3) or SelectedTheme.SecondaryElementStroke
 				end
+				
 			end)
 
-			function LabelSettings:Destroy()
+			function LabelValue:Destroy()
 				Label:Destroy()
 			end
 
