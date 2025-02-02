@@ -2100,17 +2100,14 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 		-- Button
 		function Tab:CreateButton(ButtonSettings)
-			local ButtonValue = {
-				Instance = nil -- Will store the Button instance
-			}
+			local ButtonValue = {}
 
 			local Button = Elements.Template.Button:Clone()
-			ButtonValue.Instance = Button -- Store the instance
-			
 			Button.Name = ButtonSettings.Name
 			Button.Title.Text = ButtonSettings.Name
 			Button.Visible = true
-			
+			Button.Parent = TabPage
+
 			Button.BackgroundTransparency = 1
 			Button.UIStroke.Transparency = 1
 			Button.Title.TextTransparency = 1
@@ -2161,13 +2158,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 			function ButtonValue:Set(NewButton)
 				Button.Title.Text = NewButton
 				Button.Name = NewButton
-			end
-
-			function ButtonValue:Destroy()
-				if self.Instance then
-					self.Instance:Destroy()
-					self.Instance = nil
-				end
 			end
 
 			return ButtonValue
@@ -2424,10 +2414,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 				ColorPicker.HexInput.UIStroke.Color = SelectedTheme.InputStroke
 			end)
 
-			function ColorPickerSettings:Destroy()
-				ColorPicker:Destroy()
-			end
-
 			return ColorPickerSettings
 		end
 
@@ -2480,11 +2466,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 		-- Label
 		function Tab:CreateLabel(LabelText : string, Icon: number, Color : Color3, IgnoreTheme : boolean)
 			local LabelValue = {}
-			local LabelSettings = {}
 
 			local Label = Elements.Template.Label:Clone()
-			LabelValue.Instance = Label
-			
 			Label.Title.Text = LabelText
 			Label.Visible = true
 			Label.Parent = TabPage
@@ -2568,16 +2551,9 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end
 
 			Rayfield.Main:GetPropertyChangedSignal('BackgroundColor3'):Connect(function()
-				if LabelValue.Instance then
-					LabelValue.Instance.BackgroundColor3 = IgnoreTheme and (Color or LabelValue.Instance.BackgroundColor3) or SelectedTheme.SecondaryElementBackground
-					LabelValue.Instance.UIStroke.Color = IgnoreTheme and (Color or LabelValue.Instance.BackgroundColor3) or SelectedTheme.SecondaryElementStroke
-				end
-				
+				Label.BackgroundColor3 = IgnoreTheme and (Color or Label.BackgroundColor3) or SelectedTheme.SecondaryElementBackground
+				Label.UIStroke.Color = IgnoreTheme and (Color or Label.BackgroundColor3) or SelectedTheme.SecondaryElementStroke
 			end)
-
-			function LabelValue:Destroy()
-				Label:Destroy()
-			end
 
 			return LabelValue
 		end
@@ -2596,6 +2572,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			Paragraph.UIStroke.Transparency = 1
 			Paragraph.Title.TextTransparency = 1
 			Paragraph.Content.TextTransparency = 1
+
 			Paragraph.BackgroundColor3 = SelectedTheme.SecondaryElementBackground
 			Paragraph.UIStroke.Color = SelectedTheme.SecondaryElementStroke
 
@@ -2613,10 +2590,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 				Paragraph.BackgroundColor3 = SelectedTheme.SecondaryElementBackground
 				Paragraph.UIStroke.Color = SelectedTheme.SecondaryElementStroke
 			end)
-
-			function ParagraphSettings:Destroy()
-				Paragraph:Destroy()
-			end
 
 			return ParagraphValue
 		end
@@ -2695,10 +2668,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 				if not InputSettings.Ext then
 					SaveConfiguration()
 				end
-			end
-
-			function InputSettings:Destroy()
-				Input:Destroy()
 			end
 
 			if Settings.ConfigurationSaving then
@@ -3019,10 +2988,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 				SetDropdownOptions()
 			end
 
-			function DropdownSettings:Destroy()
-				Dropdown:Destroy()
-			end
-
 			if Settings.ConfigurationSaving then
 				if Settings.ConfigurationSaving.Enabled and DropdownSettings.Flag then
 					RayfieldLibrary.Flags[DropdownSettings.Flag] = DropdownSettings
@@ -3154,10 +3119,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 				end
 			end
 
-			function KeybindSettings:Destroy()
-				Keybind:Destroy()
-			end
-
 			if Settings.ConfigurationSaving then
 				if Settings.ConfigurationSaving.Enabled and KeybindSettings.Flag then
 					RayfieldLibrary.Flags[KeybindSettings.Flag] = KeybindSettings
@@ -3174,17 +3135,14 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 		-- Toggle
 		function Tab:CreateToggle(ToggleSettings)
-			local ToggleValue = {
-				Instance = nil
-			}
+			local ToggleValue = {}
 
 			local Toggle = Elements.Template.Toggle:Clone()
-			ToggleValue.Instance = Toggle
-			
 			Toggle.Name = ToggleSettings.Name
 			Toggle.Title.Text = ToggleSettings.Name
 			Toggle.Visible = true
-			
+			Toggle.Parent = TabPage
+
 			Toggle.BackgroundTransparency = 1
 			Toggle.UIStroke.Transparency = 1
 			Toggle.Title.TextTransparency = 1
@@ -3314,10 +3272,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 				end
 			end
 
-			function ToggleSettings:Destroy()
-				Toggle:Destroy()
-			end
-
 			if not ToggleSettings.Ext then
 				if Settings.ConfigurationSaving then
 					if Settings.ConfigurationSaving.Enabled and ToggleSettings.Flag then
@@ -3352,17 +3306,13 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 		-- Slider
 		function Tab:CreateSlider(SliderSettings)
-			local SliderValue = {
-				Instance = nil
-			}
-
+			local SLDragging = false
 			local Slider = Elements.Template.Slider:Clone()
-			SliderValue.Instance = Slider
-			
 			Slider.Name = SliderSettings.Name
 			Slider.Title.Text = SliderSettings.Name
 			Slider.Visible = true
-			
+			Slider.Parent = TabPage
+
 			Slider.BackgroundTransparency = 1
 			Slider.UIStroke.Transparency = 1
 			Slider.Title.TextTransparency = 1
@@ -3504,10 +3454,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 				if not SliderSettings.Ext then
 					SaveConfiguration()
 				end
-			end
-
-			function SliderSettings:Destroy()
-				Slider:Destroy()
 			end
 
 			if Settings.ConfigurationSaving then
@@ -4100,4 +4046,3 @@ task.delay(4, function()
 end)
 
 return RayfieldLibrary
-
