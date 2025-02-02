@@ -2100,14 +2100,17 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 		-- Button
 		function Tab:CreateButton(ButtonSettings)
-			local ButtonValue = {}
+			local ButtonValue = {
+				Instance = nil -- Will store the Button instance
+			}
 
 			local Button = Elements.Template.Button:Clone()
+			ButtonValue.Instance = Button -- Store the instance
+			
 			Button.Name = ButtonSettings.Name
 			Button.Title.Text = ButtonSettings.Name
 			Button.Visible = true
-			Button.Parent = TabPage
-
+			
 			Button.BackgroundTransparency = 1
 			Button.UIStroke.Transparency = 1
 			Button.Title.TextTransparency = 1
@@ -2160,8 +2163,11 @@ function RayfieldLibrary:CreateWindow(Settings)
 				Button.Name = NewButton
 			end
 
-			function ButtonSettings:Destroy()
-				Button:Destroy()
+			function ButtonValue:Destroy()
+				if self.Instance then
+					self.Instance:Destroy()
+					self.Instance = nil
+				end
 			end
 
 			return ButtonValue
@@ -3168,14 +3174,17 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 		-- Toggle
 		function Tab:CreateToggle(ToggleSettings)
-			local ToggleValue = {}
+			local ToggleValue = {
+				Instance = nil
+			}
 
 			local Toggle = Elements.Template.Toggle:Clone()
+			ToggleValue.Instance = Toggle
+			
 			Toggle.Name = ToggleSettings.Name
 			Toggle.Title.Text = ToggleSettings.Name
 			Toggle.Visible = true
-			Toggle.Parent = TabPage
-
+			
 			Toggle.BackgroundTransparency = 1
 			Toggle.UIStroke.Transparency = 1
 			Toggle.Title.TextTransparency = 1
@@ -3343,13 +3352,17 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 		-- Slider
 		function Tab:CreateSlider(SliderSettings)
-			local SLDragging = false
+			local SliderValue = {
+				Instance = nil
+			}
+
 			local Slider = Elements.Template.Slider:Clone()
+			SliderValue.Instance = Slider
+			
 			Slider.Name = SliderSettings.Name
 			Slider.Title.Text = SliderSettings.Name
 			Slider.Visible = true
-			Slider.Parent = TabPage
-
+			
 			Slider.BackgroundTransparency = 1
 			Slider.UIStroke.Transparency = 1
 			Slider.Title.TextTransparency = 1
