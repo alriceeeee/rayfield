@@ -2473,9 +2473,13 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 		-- Label
 		function Tab:CreateLabel(LabelText : string, Icon: number, Color : Color3, IgnoreTheme : boolean)
-			local LabelValue = {}
+			local LabelValue = {
+				Instance = Label -- Store the instance
+			}
 
 			local Label = Elements.Template.Label:Clone()
+			LabelValue.Instance = Label -- Update the stored instance
+			
 			Label.Title.Text = LabelText
 			Label.Visible = true
 			Label.Parent = TabPage
@@ -2559,8 +2563,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end
 
 			Rayfield.Main:GetPropertyChangedSignal('BackgroundColor3'):Connect(function()
-				Label.BackgroundColor3 = IgnoreTheme and (Color or Label.BackgroundColor3) or SelectedTheme.SecondaryElementBackground
-				Label.UIStroke.Color = IgnoreTheme and (Color or Label.BackgroundColor3) or SelectedTheme.SecondaryElementStroke
+				if LabelValue.Instance then
+					LabelValue.Instance.BackgroundColor3 = IgnoreTheme and (Color or LabelValue.Instance.BackgroundColor3) or SelectedTheme.SecondaryElementBackground
+					LabelValue.Instance.UIStroke.Color = IgnoreTheme and (Color or LabelValue.Instance.BackgroundColor3) or SelectedTheme.SecondaryElementStroke
+				end
 			end)
 
 			function LabelSettings:Destroy()
@@ -2584,7 +2590,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 			Paragraph.UIStroke.Transparency = 1
 			Paragraph.Title.TextTransparency = 1
 			Paragraph.Content.TextTransparency = 1
-
 			Paragraph.BackgroundColor3 = SelectedTheme.SecondaryElementBackground
 			Paragraph.UIStroke.Color = SelectedTheme.SecondaryElementStroke
 
