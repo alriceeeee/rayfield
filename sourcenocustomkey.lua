@@ -2160,6 +2160,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 				Button.Name = NewButton
 			end
 
+			function ButtonSettings:Destroy()
+				Button:Destroy()
+			end
+
 			return ButtonValue
 		end
 
@@ -2414,6 +2418,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 				ColorPicker.HexInput.UIStroke.Color = SelectedTheme.InputStroke
 			end)
 
+			function ColorPickerSettings:Destroy()
+				ColorPicker:Destroy()
+			end
+
 			return ColorPickerSettings
 		end
 
@@ -2555,6 +2563,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 				Label.UIStroke.Color = IgnoreTheme and (Color or Label.BackgroundColor3) or SelectedTheme.SecondaryElementStroke
 			end)
 
+			function LabelSettings:Destroy()
+				Label:Destroy()
+			end
+
 			return LabelValue
 		end
 
@@ -2590,6 +2602,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 				Paragraph.BackgroundColor3 = SelectedTheme.SecondaryElementBackground
 				Paragraph.UIStroke.Color = SelectedTheme.SecondaryElementStroke
 			end)
+
+			function ParagraphSettings:Destroy()
+				Paragraph:Destroy()
+			end
 
 			return ParagraphValue
 		end
@@ -2668,6 +2684,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 				if not InputSettings.Ext then
 					SaveConfiguration()
 				end
+			end
+
+			function InputSettings:Destroy()
+				Input:Destroy()
 			end
 
 			if Settings.ConfigurationSaving then
@@ -2988,6 +3008,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 				SetDropdownOptions()
 			end
 
+			function DropdownSettings:Destroy()
+				Dropdown:Destroy()
+			end
+
 			if Settings.ConfigurationSaving then
 				if Settings.ConfigurationSaving.Enabled and DropdownSettings.Flag then
 					RayfieldLibrary.Flags[DropdownSettings.Flag] = DropdownSettings
@@ -3117,6 +3141,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 				if KeybindSettings.CallOnChange then
 					KeybindSettings.Callback(tostring(NewKeybind))
 				end
+			end
+
+			function KeybindSettings:Destroy()
+				Keybind:Destroy()
 			end
 
 			if Settings.ConfigurationSaving then
@@ -3270,6 +3298,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 				if not ToggleSettings.Ext then
 					SaveConfiguration()
 				end
+			end
+
+			function ToggleSettings:Destroy()
+				Toggle:Destroy()
 			end
 
 			if not ToggleSettings.Ext then
@@ -3454,6 +3486,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 				if not SliderSettings.Ext then
 					SaveConfiguration()
 				end
+			end
+
+			function SliderSettings:Destroy()
+				Slider:Destroy()
 			end
 
 			if Settings.ConfigurationSaving then
@@ -4046,3 +4082,4 @@ task.delay(4, function()
 end)
 
 return RayfieldLibrary
+
