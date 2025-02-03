@@ -6,7 +6,7 @@ local execname = {
 }
 
 print("Creating window...")
-local Window = RayfieldLibrary:CreateWindow({
+local Window = Rayfield:CreateWindow({
    Name = gamename .. " | Rayfield example window | v" .. version ,
    LoadingTitle = "Rayfield Interface Suite",
    LoadingSubtitle = "by Sirius",
