@@ -1,43 +1,42 @@
+local version = "0.0.1"
+local gamename = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 local Rayfield = loadstring(readfile("rfsrc.lua"))()
-
 local execname = {
     exec = identifyexecutor()
 }
 
 print("Creating window...")
 local Window = Rayfield:CreateWindow({
-    DisableRecreate = true,
-    Name = "Minimal Hub",
-    LoadingTitle = "Minimal Hub",
-    LoadingSubtitle = "by minimal",
-    ConfigurationSaving = {
-        Enabled = true,
-        FolderName = "MinimalHub",
-        FileName = "Game"
-    },
-    Discord = {
-        Enabled = false,
-        Invite = "noinvitelink",
-        RememberJoins = true
-    },
+   Name = gamename .. " | Rayfield example window | v" .. version ,
+   LoadingTitle = "Rayfield Interface Suite",
+   LoadingSubtitle = "by Sirius",
+   Theme = "Ocean",
+   DisableRayfieldPrompts = true,
+   DisableBuildWarnings = true,
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil,
+      FileName = "Big Hub"
+   }
 })
 print("Window created:", Window)
 
-local Tab = Window:CreateTab("Main", 4483362458)
-local Section = Tab:CreateSection("Main")
+local Tab = Window:CreateTab("Tab Example", 4483362458)
+local Section = Tab:CreateSection("Section Example")
 
 Tab:CreateLabel("Executor: "..execname.exec)
 
 local Button = Tab:CreateButton({
-    Name = "Button Example",
-    Callback = function()
-        Rayfield:Notify({
-            Title = "Button Pressed",
-            Content = "You pressed the button!",
-            Duration = 5,
-            Image = 4384403532
-        })
-    end,
+   Name = "Button Example",
+   Callback = function()
+      RayfieldLibrary:Notify({
+         Title = "Button Pressed",
+         Content = "You pressed the button!",
+         Duration = 5,
+         Image = 4384403532
+      })
+   end,
 })
 
 local Toggle = Tab:CreateToggle({
