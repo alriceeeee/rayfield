@@ -1,62 +1,43 @@
-print("Starting script...")
-print("Attempting to read sourcenocustomkey.lua...")
-
-local filecontents = readfile("sourcenocustomkey.lua")
-if not filecontents then
-    print("Failed to read sourcenocustomkey.lua - file might not exist")
-    return
-end
-print("File contents loaded successfully")
-print("File contents:", filecontents:sub(1, 100))
-
-local success, RayfieldLibrary = pcall(function()
-    print("Attempting to loadstring...")
-    print("Length of file contents:", #filecontents)
-    return loadstring(filecontents)()
-end)
-
-if not success then
-    print("Failed to load Rayfield:", RayfieldLibrary)
-    return
-end
+local Rayfield = loadstring(readfile("rfsrc.lua"))()
 
 local execname = {
     exec = identifyexecutor()
 }
 
 print("Creating window...")
-local Window = RayfieldLibrary:CreateWindow({
-   Name = "Rayfield Example Window",
-   Icon = 0,
-   LoadingTitle = "Rayfield Interface Suite",
-   LoadingSubtitle = "by Sirius",
-   Theme = "Ocean",
-   DisableRayfieldPrompts = true,
-   DisableBuildWarnings = true,
-
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = nil,
-      FileName = "Big Hub"
-   }
+local Window = Rayfield:CreateWindow({
+    DisableRecreate = true,
+    Name = "Minimal Hub",
+    LoadingTitle = "Minimal Hub",
+    LoadingSubtitle = "by minimal",
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "MinimalHub",
+        FileName = "Game"
+    },
+    Discord = {
+        Enabled = false,
+        Invite = "noinvitelink",
+        RememberJoins = true
+    },
 })
 print("Window created:", Window)
 
-local Tab = Window:CreateTab("Tab Example", 4483362458)
-local Section = Tab:CreateSection("Section Example")
+local Tab = Window:CreateTab("Main", 4483362458)
+local Section = Tab:CreateSection("Main")
 
 Tab:CreateLabel("Executor: "..execname.exec)
 
 local Button = Tab:CreateButton({
-   Name = "Button Example",
-   Callback = function()
-      RayfieldLibrary:Notify({
-         Title = "Button Pressed",
-         Content = "You pressed the button!",
-         Duration = 5,
-         Image = 4384403532
-      })
-   end,
+    Name = "Button Example",
+    Callback = function()
+        Rayfield:Notify({
+            Title = "Button Pressed",
+            Content = "You pressed the button!",
+            Duration = 5,
+            Image = 4384403532
+        })
+    end,
 })
 
 local Toggle = Tab:CreateToggle({
@@ -116,5 +97,3 @@ local Keybind = Tab:CreateKeybind({
         print("Keybind changed to:", Keybind)
     end,
 })
-
-RayfieldLibrary:LoadConfiguration()

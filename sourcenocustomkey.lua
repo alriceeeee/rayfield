@@ -1592,7 +1592,25 @@ local function createSettings(Window)
 end
 
 function RayfieldLibrary:CreateWindow(Settings)
-	if Rayfield:FindFirstChild('Loading') then
+    -- Check if window exists and DisableRecreate is true
+    if Settings.DisableRecreate and Rayfield and Rayfield.Parent then
+        return Window
+    end
+
+    -- Reset window reference if it's being recreated
+    Window = nil
+
+    local StartTime = os.clock()
+    local CurrentPicker = nil
+
+    local Window = {
+        Tabs = {},
+        Elements = {},
+        Flags = {},
+        Theme = Settings.Theme
+    }
+
+    if Rayfield:FindFirstChild('Loading') then
 		if getgenv and not getgenv().rayfieldCached then
 			Rayfield.Enabled = true
 			Rayfield.Loading.Visible = true
