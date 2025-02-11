@@ -8,7 +8,6 @@ local execname = {
 print("Creating window...")
 local Window = Rayfield:CreateWindow({
    Name = gamename .. " | Rayfield example window | v" .. version ,
-   DisableRecreate = true,
    LoadingTitle = "Rayfield Interface Suite",
    LoadingSubtitle = "by Sirius",
    Theme = "Ocean",
