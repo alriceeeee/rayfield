@@ -1592,6 +1592,11 @@ local function createSettings(Window)
 end
 
 function RayfieldLibrary:CreateWindow(Settings)
+    if WindowExists and Settings.DisableRecreate then
+        return
+    end
+    WindowExists = true
+    
     -- Check if window exists and DisableRecreate is true
     if Settings.DisableRecreate and Rayfield and Rayfield.Parent then
         return Window
