@@ -1591,19 +1591,7 @@ local function createSettings(Window)
 	updateSettings()
 end
 
-local WindowExists = false
-
 function RayfieldLibrary:CreateWindow(Settings)
-    if WindowExists and Settings.DisableRecreate then
-        return RayfieldLibrary
-    end
-    WindowExists = true
-    
-    -- Check if window exists and DisableRecreate is true
-    if Settings.DisableRecreate and Rayfield and Rayfield.Parent then
-        return Window
-    end
-
     -- Reset window reference if it's being recreated
     Window = nil
 
